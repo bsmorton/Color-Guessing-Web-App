@@ -5,6 +5,10 @@ var squares = document.getElementsByClassName("square");
 
 var targetColor = colors[3];
 
+var targetColorDisplay = document.getElementById("targetColor");
+
+targetColorDisplay.textContent = targetColor;
+
 for(var i=0; i<squares.length; ++i){
     squares[i].style.backgroundColor = colors[i];
     squares[i].addEventListener("click", function(){
@@ -12,7 +16,7 @@ for(var i=0; i<squares.length; ++i){
             alert("correct");
         }
         else{
-            alert("incorrect");
+            this.style.backgroundColor= "#232323";
         }
     });
 }
