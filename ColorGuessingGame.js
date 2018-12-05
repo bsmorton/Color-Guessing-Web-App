@@ -1,4 +1,6 @@
-var colors = generateRandomColors(6);
+var numOfColors = 6;
+
+var colors = generateRandomColors();
 
 var squares = document.getElementsByClassName("square");
 
@@ -10,7 +12,43 @@ var h1 = document.querySelector("h1");
 
 var message = document.getElementById("message");
 
+var newColorsButton = document.getElementById("newColors");
+
+var easy = document.getElementById("easy");
+
+var hard = document.getElementById("hard");
+
 targetColorDisplay.textContent = targetColor;
+
+easy.addEventListener("click", function(){
+    numOfColors = 3;
+    this.classList.add("selected");
+    hard.classList.remove("selected");
+    squares[3].style.display = "none";
+    squares[4].style.display = "none";
+    squares[5].style.display = "none";
+    
+
+    playAgain();
+
+
+});
+
+hard.addEventListener("click", function(){
+    numOfColors = 6;
+    this.classList.add("selected");
+    easy.classList.remove("selected");
+    squares[3].style.display = "block";
+    squares[4].style.display = "block";
+    squares[5].style.display = "block";
+    
+
+    playAgain();
+})
+
+newColorsButton.addEventListener("click", function(){
+        playAgain();
+});
 
 for(var i=0; i<squares.length; ++i){
     squares[i].style.backgroundColor = colors[i];
@@ -19,6 +57,7 @@ for(var i=0; i<squares.length; ++i){
             message.textContent = "Correct!!";
             winningColor(targetColor);
             h1.style.backgroundColor = targetColor;
+            newColorsButton.textContent = "PLAY AGAIN?";
         }
         else{
             message.textContent = "Try Again!!";
@@ -43,10 +82,27 @@ function winningColor(color) {
     }
 }
 
-function generateRandomColors(numOfColors){
+function generateRandomColors(){
     var colors=[];
     for(var i=0; i<numOfColors; ++i){
         colors.push(randomColor());
     }
     return colors;
+}
+
+function newColors(){
+    colors = generateRandomColors();
+    targetColor = getTargetColor();
+    targetColorDisplay.textContent = targetColor;
+    for(var i=0; i<numOfColors; ++i){
+        squares[i].style.backgroundColor = colors[i];
+    }
+}
+
+function playAgain(){
+    newColors();
+    h1.style.backgroundColor = "#232323";
+    newColorsButton.textContent = "NEW COLORS";
+    message.textContent = "";
+
 }
