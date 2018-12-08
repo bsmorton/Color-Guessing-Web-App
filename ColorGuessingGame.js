@@ -95,7 +95,7 @@ function newColors(){
 function playAgain(){
     newColors();
     targetColor = getTargetColor();
-    h1.style.backgroundColor = "#232323";
+    h1.style.backgroundColor = "steelblue";
     newColorsButton.textContent = "NEW COLORS";
     message.textContent = "";
 
