@@ -2,65 +2,57 @@ var numOfColors = 6;
 
 var colors = generateRandomColors();
 
-var squares = document.getElementsByClassName("square");
-
 var targetColor = getTargetColor();
 
-var targetColorDisplay = document.getElementById("targetColor");
-
-var h1 = document.querySelector("h1");
-
-var message = document.getElementById("message");
-
-var newColorsButton = document.getElementById("newColors");
-
-var modes = document.querySelectorAll(".mode");
+// var newColorsButton = document.getElementById("newColors");
 
 
 init();
 
 
 function init(){
-    modes[1].classList.add("selected");
-    targetColorDisplay.textContent = targetColor;
+    $("#hard").last().addClass("selected");
+    $("#targetColor").text(targetColor);
     initModes();
     initSquares();
 }
 
 function initModes(){
-    for(var i=0; i<modes.length; ++i){
-        modes[i].addEventListener("click", function(){
-            numOfColors = this.id==="easy" ? 3 : 6; 
-            modes[0].classList.remove("selected");
-            modes[1].classList.remove("selected");
-            this.classList.add("selected");
-    
-            playAgain();
-        });
-    }
+    $(".mode").on("click", function(){
+        numOfColors = $(this).attr("id")==="easy" ? 3 : 6;
+        $("#easy").removeClass("selected");
+        $("#hard").removeClass("selected");
+        $(this).addClass("selected");
+
+        playAgain();
+    })
 }
 
 function initSquares(){
-    for(var i=0; i<squares.length; ++i){
-        squares[i].style.backgroundColor = colors[i];
-        squares[i].addEventListener("click", function(){
-            if(this.style.backgroundColor===targetColor){
-                message.textContent = "Correct!!";
-                winningColor(targetColor);
-                h1.style.backgroundColor = targetColor;
-                newColorsButton.textContent = "PLAY AGAIN?";
-            }
-            else{
-                message.textContent = "Try Again!!";
-                this.style.backgroundColor= "#232323";
-            }
-        });
-    }
+    $(".square").each(function(){
+        $(this).css("backgroundColor",colors.shift());
+    });
+    $(".square").on("click", function(){
+        if($(this).css("backgroundColor")===targetColor){
+            $("#message").text("Correct!!");
+            winningColor(targetColor);
+            $("h1").css("backgroundColor",targetColor);
+            // newColorsButton.textContent = "PLAY AGAIN?";
+            $("#newColors").text("PLAY AGAIN?");
+        }
+        else{
+            $("#message").text("Try Again!!");
+                $(this).css("backgroundColor","#232323");
+        }
+    })
 }
 
 
-newColorsButton.addEventListener("click", function(){
-        playAgain();
+// newColorsButton.addEventListener("click", function(){
+//         playAgain();
+// });
+$("#newColors").on("click",function(){
+    playAgain();
 });
 
 
@@ -76,9 +68,7 @@ function randomColor(){
 }
 
 function winningColor(color) {
-    for(var i=0; i<squares.length; ++i){
-        squares[i].style.backgroundColor = color;
-    }
+    $(".square").css("backgroundColor",color);
 }
 
 function generateRandomColors(){
@@ -91,25 +81,29 @@ function generateRandomColors(){
 
 function newColors(){
     colors = generateRandomColors();
-    targetColorDisplay.textContent = targetColor;
-    hideSquares();
-    for(var i=0; i<numOfColors; ++i){
-        squares[i].style.display = "block";
-        squares[i].style.backgroundColor = colors[i];
-    }
+    targetColor = getTargetColor();
+    $("#targetColor").text(targetColor);
+    toggleSquares();
 }
 
 function playAgain(){
     newColors();
-    targetColor = getTargetColor();
-    h1.style.backgroundColor = "steelblue";
-    newColorsButton.textContent = "NEW COLORS";
-    message.textContent = "";
+    $("h1").css("backgroundColor","steelblue");
+    // newColorsButton.textContent = "NEW COLORS";
+    $("#newColors").text("NEW COLORS");
+    $("#message").text("");
 
 }
 
-function hideSquares(){
-    for(var i=0; i<6; ++i){
-        squares[i].style.display = "none";
-    }
+function toggleSquares(){
+    $(".square").css("display","none");
+    $(".square").each(function(index){
+        if(index<numOfColors){
+            $(this).css({
+                display: "block",
+                backgroundColor: colors.shift()
+            });
+        }
+    });
 }
+
