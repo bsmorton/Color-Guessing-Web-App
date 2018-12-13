@@ -4,11 +4,7 @@ var colors = generateRandomColors();
 
 var targetColor = getTargetColor();
 
-// var newColorsButton = document.getElementById("newColors");
-
-
 init();
-
 
 function init(){
     $("#hard").last().addClass("selected");
@@ -37,7 +33,6 @@ function initSquares(){
             $("#message").text("Correct!!");
             winningColor(targetColor);
             $("h1").css("backgroundColor",targetColor);
-            // newColorsButton.textContent = "PLAY AGAIN?";
             $("#newColors").text("PLAY AGAIN?");
         }
         else{
@@ -48,9 +43,6 @@ function initSquares(){
 }
 
 
-// newColorsButton.addEventListener("click", function(){
-//         playAgain();
-// });
 $("#newColors").on("click",function(){
     playAgain();
 });
@@ -89,7 +81,6 @@ function newColors(){
 function playAgain(){
     newColors();
     $("h1").css("backgroundColor","steelblue");
-    // newColorsButton.textContent = "NEW COLORS";
     $("#newColors").text("NEW COLORS");
     $("#message").text("");
 
